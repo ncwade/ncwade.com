@@ -1,0 +1,335 @@
+/* ============================================
+   EXPERIENCE PAGE STYLES
+   ============================================ */
+
+.work-page {
+    padding: var(--space-2xl) 0;
+}
+
+.work-hero {
+    padding: var(--space-3xl) 0 var(--space-2xl);
+    text-align: center;
+}
+
+.work-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: var(--space-lg);
+}
+
+.lead {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.experience-section {
+    padding: var(--space-2xl) 0;
+}
+
+.experience-section h2 {
+    font-size: 2rem;
+    margin-bottom: var(--space-2xl);
+}
+
+.timeline {
+    position: relative;
+    padding-left: var(--space-xl);
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+        180deg,
+        var(--color-primary) 0%,
+        var(--color-border) 50%,
+        transparent 100%
+    );
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: var(--space-xl);
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: calc(-1 * var(--space-xl) - 6px);
+    top: var(--space-lg);
+    width: 14px;
+    height: 14px;
+    background: var(--color-bg-elevated);
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    transition: all var(--transition-base);
+}
+
+.timeline-item.current .timeline-marker {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px var(--color-primary-glow);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.timeline-item:hover .timeline-marker {
+    border-color: var(--color-primary);
+    transform: scale(1.2);
+}
+
+.experience-card {
+    padding: var(--space-xl);
+    cursor: pointer;
+    user-select: none;
+}
+
+.experience-card:hover {
+    transform: translateY(-4px);
+}
+
+.timeline-item.current .experience-card {
+    border-color: var(--color-primary);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.job-title {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.current-badge {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    padding: var(--space-xs) var(--space-md);
+    background: var(--color-primary);
+    color: var(--color-bg-deep);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.company-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.job-period {
+    font-size: 0.9375rem;
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-sm);
+}
+
+.click-hint {
+    font-size: 0.875rem;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.experience-card:hover .click-hint {
+    opacity: 1;
+}
+
+.work-cta {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-lg);
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto var(--space-2xl);
+}
+
+.cta-actions {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 700px;
+    max-height: 85vh;
+    width: 100%;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    overflow-y: auto;
+    z-index: 1001;
+    animation: modal-fade-in 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes modal-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: var(--color-primary);
+}
+
+.modal-content h2 {
+    margin-bottom: var(--space-sm);
+    padding-right: var(--space-3xl);
+    font-size: 1.75rem;
+}
+
+.modal-content h3 {
+    margin-bottom: var(--space-xs);
+    font-size: 1.25rem;
+}
+
+.modal-content p {
+    margin-bottom: var(--space-md);
+    font-size: 0.9375rem;
+}
+
+.modal-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--space-xl) 0;
+}
+
+.modal-body {
+    font-size: 1rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .work-page {
+        padding: var(--space-lg) 0;
+    }
+
+    .work-hero {
+        padding: var(--space-2xl) 0 var(--space-lg);
+    }
+
+    .work-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+
+    .timeline {
+        padding-left: var(--space-lg);
+    }
+
+    .timeline-marker {
+        left: calc(-1 * var(--space-lg) - 6px);
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+
+    .cta-actions {
+        flex-direction: column;
+    }
+
+    .modal-content {
+        max-height: 90vh;
+        padding: var(--space-xl);
+    }
+
+    .modal-close {
+        top: var(--space-md);
+        right: var(--space-md);
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem;
+        padding-right: var(--space-2xl);
+    }
+}

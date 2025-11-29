@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/pages/about.css";
+---
+
+<BaseLayout
+    title="About | Nick Wade"
+    description="Learn more about Nick Wade - software engineer, builder, and lifelong learner."
+>
+    <div class="about-page">
+        <div class="container container-narrow">
+            <!-- Hero Section with Headshot -->
+            <section class="about-hero">
+                <div class="headshot-wrapper">
+                    <img
+                        src="/images/headshot.png"
+                        alt="Nick Wade headshot"
+                        class="headshot"
+                    />
+                </div>
+                <div class="hero-content">
+                    <h1>
+                        Hi, I'm <span class="gradient-text">Nick Wade</span>
+                    </h1>
+                    <p class="lead text-secondary">
+                        Father, Husband, Friend, Professional.
+                    </p>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- Specialties Section -->
+            <section class="about-section">
+                <h2>Specialties</h2>
+                <div class="content-grid">
+                    <div class="content-block">
+                        <p>
+                            I'm a software turned infrastructure engineer who
+                            specializes in breaking business problems down into
+                            technical systems. I have a large range of
+                            experience in a variety of systems sizes, from
+                            embedded software to large-scale distributed
+                            systems. Recently I've been focusing on where
+                            defense tech intersects with modern SaaS platforms.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- What I Do Section -->
+            <section class="about-section">
+                <h2>What I Do</h2>
+                <div class="skills-grid">
+                    <div class="skill-card card">
+                        <h3>GovTech Solutions</h3>
+                        <p class="text-secondary">
+                            I have close to six years of experience building
+                            solutions for the GovTech space, with the last two
+                            years in the SaaS space. Experience building FedRAMP
+                            High compliant solutions and deploying to IL5/IL6
+                            environments.
+                        </p>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>AWS</h3>
+                        <p class="text-secondary">
+                            With over 7 years of hands-on AWS experience, I
+                            specialize in building and managing enterprise-scale
+                            cloud infrastructure. This experience spans from
+                            serverless at the edge to centralized large scale
+                            compute.
+                        </p>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>CICD</h3>
+                        <p class="text-secondary">
+                            Fourteen years of experience in automating the
+                            building, testing, and deployment of software
+                            solutions from cloud scale APIs to embedded RTOS
+                            based software.
+                        </p>
+                    </div>
+                    <div class="skill-card card">
+                        <h3>Incident Management</h3>
+                        <p class="text-secondary">
+                            Extensive experience managing incidents across all
+                            scales, from minor service disruptions to
+                            enterprise-wide outages. Skilled in end-to-end
+                            incident response including rapid troubleshooting,
+                            thorough root cause analysis, and clear executive
+                            communication.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="about-section">
+                <h2>Beyond the Job</h2>
+                <div class="content-block">
+                    <p>
+                        I believe in human to human communication, personal
+                        growth, and continuous learning. I enjoy household
+                        projects around the home, spending time with my family,
+                        tending to our hobby farm, and reading a good book.
+                    </p>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="about-cta">
+                <div class="cta-content">
+                    <h2>Let's Talk</h2>
+                    <p class="text-secondary">
+                        I'm always interested in connecting, be it personal or
+                        professional.
+                    </p>
+                    <div class="cta-actions">
+                        <a href="/contact" class="btn btn-primary btn-large">
+                            Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

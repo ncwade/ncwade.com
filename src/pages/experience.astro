@@ -1,0 +1,302 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/pages/experience.css";
+
+interface ExperienceItem {
+    id: string;
+    title: string;
+    company: string;
+    period: string;
+    current: boolean;
+    description: string;
+}
+
+const experience: ExperienceItem[] = [
+    {
+        id: "onebrief",
+        title: "Principal Infrastructure Engineer",
+        company: "Onebrief",
+        period: "Sep 2024 - Present",
+        current: true,
+        description:
+            "Working as the Principal engineer on the Onebrief Infrastructure team. We manage our corporate AWS infrastructure, our customer deployments, and our internal tooling.",
+    },
+    {
+        id: "rebellion-defense",
+        title: "Senior Software Engineer",
+        company: "Rebellion Defense",
+        period: "Dec 2023 - Sep 2024",
+        current: false,
+        description: `• Maintained internal corporate infrastructure on AWS including: Github Enterprise (self-hosted), Confluence, Splunk, PagerDuty, and Tailscale.
+• Served as lead on AWS cost optimizations, resulting in a 28% monthly cost savings.
+• Migrated various Terraform standards and locations to a common model based on Terragrunt.
+• Served as technical lead for launching the IL5 offering of our cyber security product.
+• Stood up internal apt repo for streamlined package sharing.
+• Served as technical lead for the corporate and product infrastructure teams.`,
+    },
+    {
+        id: "godaddy-2021",
+        title: "Senior Software Engineer",
+        company: "GoDaddy",
+        period: "Feb 2021 - Dec 2023",
+        current: false,
+        description: `• Lead efforts to: update infrastructure, move to centralized/structured logging, modernize data layer, and transition applications from Python 2 to Python 3 for the abuse reporting pipeline.
+• Migrated components with availability concerns to the public cloud, resulting in 99.98% uptime (from 96%) and a more than 50% reduction in response time.
+• Designed and implemented procedures to reduce average CVE patch time within the team from months to days.
+• Designed and executed procedures to facilitate version uplifts of Kubernetes and RabbitMQ, allowing these systems to be updated within weeks instead of spanning months.
+• Lead multiple vendor technical evaluations to determine product fit based on measurable criteria.
+• Served as primary team architect for two years.
+• Uplifted engineering rigor across the team by applying automated linting, pre-commit checks, review checklists, deployments checklists, and automated integration tests to the team's day to day workflows.
+• Developed and deployed a CICD system for all 70 of the team's microservices.
+• Collaborated with other senior peers to deprecate more than 35,000 lines of unused/redundant code.`,
+    },
+    {
+        id: "collins-aerospace",
+        title: "Staff Software Engineer",
+        company: "Collins Aerospace",
+        period: "May 2020 - Feb 2021",
+        current: false,
+        description: `• Assisted with creation/support of development and verification tools for Mission Systems programs.
+• Contributed to CICD environment to allow for more rapid integration cycles in lab.
+• Assisted with integration of product at a system level.`,
+    },
+    {
+        id: "godaddy-2018",
+        title: "Senior Software Engineer",
+        company: "GoDaddy",
+        period: "Apr 2018 - May 2020",
+        current: false,
+        description: `• Prototyped infrastructure move to AWS cloud offerings.
+• Maintained/refreshed on premise Kubernetes cluster, MongoDB/Redis deployments, and Jenkins based CICD pipeline.
+• Acted as lead in effort to transfer ownership of an externally developed API to within the team.
+• Primary developer integrating teams APIs/services with new e-commerce system.
+• Acted as lead in software design/architecture phases for new projects being developed within the team.
+• Included software/infrastructure prototype work, wireframes/mockups, cross-team integration/communication, and requirement gathering efforts.
+• Lead the push for team wide design reviews early on in the software development cycle.
+• Developed/deployed Kubernetes infrastructure to provided standardized logging/monitoring/high availability for team owned applications & services.
+• Developed standardized CICD pipeline that provided static analysis, docker image creation, and automated push/rollback based integration test results.
+• Primary developer on several new APIs endpoints and department wide tools. Served as secondary developer on several new web and electron applications.`,
+    },
+    {
+        id: "rockwell-collins-2015",
+        title: "Senior Software Technician",
+        company: "Rockwell Collins",
+        period: "May 2015 - Apr 2018",
+        current: false,
+        description: `• Maintained/improved platform CICD for A350 xRM & SDM modules.
+• Developed new feature implementation/bug analysis and fixes for multiple modules within the A350 IMO platform.
+• Supplied estimates and prototypes for new feature proposals for multiple modules within the A350 IMO platform.
+• Collaborated with systems engineers to improve testing process and verify all new features.`,
+    },
+    {
+        id: "genova-technologies",
+        title: "Software Engineer",
+        company: "Genova Technologies",
+        period: "Apr 2014 - May 2015",
+        current: false,
+        description: `• Developed new features and supplied bug fixes for embedded WindRiver Linux & VxWorks A653 platforms.
+• Performed integration activities with platform customer to ensure proper requirement fit/implementation.
+• Deployed new development environment for A350 IMO module including: system wide unit tests, code styling/formatting at compile time, and streamlined filesystem image creation.`,
+    },
+    {
+        id: "rockwell-collins-2012",
+        title: "Software Co-op",
+        company: "Rockwell Collins",
+        period: "Jun 2012 - Apr 2014",
+        current: false,
+        description: `• Performed testing and performance analysis for Proline 21 display software.
+• Managed lab for A350 IMO SDM module, performing chair setup, software deployments, reproducing customer bugs, supplying software fixes, and running software verification.
+• Assisted in end to end performance analysis of the A350 IMO cabinet.
+• Received Rockwell Collin's Above & Beyond award.`,
+    },
+    {
+        id: "rockwell-collins-2010",
+        title: "High School Intern",
+        company: "Rockwell Collins",
+        period: "Sep 2010 - Jun 2012",
+        current: false,
+        description: `• Contributed to an internal radio testing tool written in Java/C++ based on the Eclipse GUI toolkit.
+• Contributed to system test scripts written in Python.
+• Assisted in the execution of systems level E2E testing on in-house software tools.`,
+    },
+];
+---
+
+<BaseLayout
+    title="Work | Nick Wade"
+    description="Professional experience of Nick Wade - Infrastructure Engineer with 14 years of experience."
+>
+    <div class="work-page">
+        <div class="container container-narrow">
+            <!-- Hero Section -->
+            <section class="work-hero">
+                <h1><span class="gradient-text">Experience</span></h1>
+                <p class="lead text-secondary">
+                    I enjoy finding technical solutions to business needs,
+                    specializing in infrastructure and common off the shelf
+                    solutions. I am always interested in learning new
+                    technologies, meeting new people, and growing as an
+                    engineer. I have fourteen years of experience in everything
+                    from kernel modules on embedded Linux systems to security
+                    scanning for cloud based infrastructure. Currently working
+                    on the Infrastructure team at Onebrief.
+                </p>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- Experience Timeline -->
+            <section class="experience-section">
+                <h2>Work History</h2>
+
+                <div class="timeline">
+                    {
+                        experience.map((job) => (
+                            <div
+                                class={`timeline-item ${job.current ? "current" : ""}`}
+                            >
+                                <div class="timeline-marker" />
+                                <div
+                                    class={`experience-card ${job.current ? "glass-card" : "card"}`}
+                                    data-job-id={job.id}
+                                    role="button"
+                                    tabindex="0"
+                                >
+                                    <div class="card-header">
+                                        <h3 class="job-title">{job.title}</h3>
+                                        {job.current && (
+                                            <span class="current-badge">
+                                                Current
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div class="company-name text-primary">
+                                        {job.company}
+                                    </div>
+                                    <div class="job-period text-secondary">
+                                        {job.period}
+                                    </div>
+                                    <div class="click-hint text-muted">
+                                        Click for details →
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- CTA Section -->
+            <section class="work-cta">
+                <div class="cta-content">
+                    <h2>Let's Work Together</h2>
+                    <p class="text-secondary">
+                        Interested in discussing opportunities, collaborating on
+                        projects, or just connecting? I'm always open to
+                        interesting conversations.
+                    </p>
+                    <div class="cta-actions">
+                        <a href="/contact" class="btn btn-primary btn-large">
+                            Get in Touch
+                        </a>
+                        <a href="/about" class="btn btn-secondary btn-large">
+                            More About Me
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="job-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">&times;</button
+            >
+            <h2 id="modal-title"></h2>
+            <h3 id="modal-company" class="text-primary"></h3>
+            <p id="modal-period" class="text-secondary mono"></p>
+            <div class="modal-divider"></div>
+            <div id="modal-description" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Experience data for client-side JavaScript -->
+    <script
+        id="experience-data"
+        type="application/json"
+        set:html={JSON.stringify(experience)}
+    />
+</BaseLayout>
+
+<script>
+    // Get experience data from the page
+    const experienceDataEl = document.getElementById("experience-data");
+    const experienceData = experienceDataEl
+        ? JSON.parse(experienceDataEl.textContent || "[]")
+        : [];
+
+    // Get modal elements
+    const modal = document.getElementById("job-modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalCompany = document.getElementById("modal-company");
+    const modalPeriod = document.getElementById("modal-period");
+    const modalDescription = document.getElementById("modal-description");
+    const closeBtn = document.querySelector(".modal-close");
+    const overlay = document.querySelector(".modal-overlay");
+
+    // Function to open modal
+    function openModal(jobId) {
+        const job = experienceData.find((j) => j.id === jobId);
+        if (!job) return;
+
+        if (modalTitle) modalTitle.textContent = job.title;
+        if (modalCompany) modalCompany.textContent = job.company;
+        if (modalPeriod) modalPeriod.textContent = job.period;
+        if (modalDescription) modalDescription.textContent = job.description;
+
+        if (modal) {
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    // Function to close modal
+    function closeModal() {
+        if (modal) {
+            modal.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+    }
+
+    // Add click handlers to experience cards
+    document.querySelectorAll(".experience-card").forEach((card) => {
+        const jobId = card.getAttribute("data-job-id");
+        if (!jobId) return;
+
+        // Click event
+        card.addEventListener("click", () => openModal(jobId));
+
+        // Keyboard support
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openModal(jobId);
+            }
+        });
+    });
+
+    // Close modal handlers
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (overlay) overlay.addEventListener("click", closeModal);
+
+    // ESC key to close
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal?.classList.contains("active")) {
+            closeModal();
+        }
+    });
+</script>
