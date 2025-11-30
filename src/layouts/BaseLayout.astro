@@ -17,9 +17,8 @@ const {
 
 // Normalize path by removing trailing slash (except for root "/")
 const rawPath = Astro.url.pathname;
-const currentPath = rawPath.endsWith('/') && rawPath !== '/' 
-    ? rawPath.slice(0, -1) 
-    : rawPath;
+const currentPath =
+    rawPath.endsWith("/") && rawPath !== "/" ? rawPath.slice(0, -1) : rawPath;
 ---
 
 <!doctype html>
@@ -44,6 +43,7 @@ const currentPath = rawPath.endsWith('/') && rawPath !== '/'
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <SpeedInsights />
 
         <!-- Fonts - reduced weights for performance -->
         <link
@@ -61,7 +61,13 @@ const currentPath = rawPath.endsWith('/') && rawPath !== '/'
         </script>
         <script is:inline>
             // Navigation order for directional transitions (matches header nav)
-            const navOrder = ["/", "/about", "/experience", "/contact", "/principles"];
+            const navOrder = [
+                "/",
+                "/about",
+                "/experience",
+                "/contact",
+                "/principles",
+            ];
 
             function getPageIndex(path) {
                 const normalized = path === "/" ? "/" : path.replace(/\/$/, "");
@@ -147,6 +153,5 @@ const currentPath = rawPath.endsWith('/') && rawPath !== '/'
                 </div>
             </footer>
         </div>
-        <SpeedInsights />
     </body>
 </html>
