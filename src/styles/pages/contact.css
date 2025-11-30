@@ -16,13 +16,6 @@
     margin-bottom: var(--space-lg);
 }
 
-.lead {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
 .contact-methods {
     padding: var(--space-2xl) 0;
 }
@@ -102,10 +95,6 @@
 
     .contact-hero h1 {
         font-size: 2.5rem;
-    }
-
-    .lead {
-        font-size: 1.125rem;
     }
 
     .methods-grid {

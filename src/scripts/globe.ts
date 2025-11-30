@@ -85,6 +85,10 @@ class USMap {
   private pixelRatio: number = 1;
   private nationPath: Array<Array<[number, number]>> = [];
   private connections: Array<{ from: number; to: number }> = [];
+  private animationFrameId: number | null = null;
+  private resizeTimeout: number | null = null;
+  private isDestroyed: boolean = false;
+  private boundHandleResize: () => void;
 
   // US bounds for projection
   private readonly US_LAT_MIN = 24;
@@ -110,6 +114,9 @@ class USMap {
     mediaQuery.addEventListener("change", (e) => {
       this.prefersReducedMotion = e.matches;
     });
+
+    // Bind the resize handler for proper cleanup
+    this.boundHandleResize = this.handleResize.bind(this);
 
     this.loadUSBorder();
     this.generateConnections();
@@ -184,8 +191,39 @@ class USMap {
     this.offsetY = (this.height - this.mapHeight) / 2;
   }
 
+  private handleResize(): void {
+    // Debounce resize events
+    if (this.resizeTimeout !== null) {
+      window.clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = window.setTimeout(() => {
+      if (!this.isDestroyed) {
+        this.resize();
+      }
+    }, 150);
+  }
+
   private setupEventListeners(): void {
-    window.addEventListener("resize", () => this.resize());
+    window.addEventListener("resize", this.boundHandleResize);
+  }
+
+  public destroy(): void {
+    this.isDestroyed = true;
+    
+    // Cancel animation frame
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+    
+    // Clear resize timeout
+    if (this.resizeTimeout !== null) {
+      window.clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = null;
+    }
+    
+    // Remove event listener
+    window.removeEventListener("resize", this.boundHandleResize);
   }
 
   private initDataPackets(): void {
@@ -363,6 +401,8 @@ class USMap {
   }
 
   private animate = (): void => {
+    if (this.isDestroyed) return;
+    
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     this.drawWireframeGrid();
@@ -371,7 +411,7 @@ class USMap {
     this.drawEdgeLocations();
     this.drawDataPackets();
 
-    requestAnimationFrame(this.animate);
+    this.animationFrameId = requestAnimationFrame(this.animate);
   };
 }
 
