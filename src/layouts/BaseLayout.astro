@@ -14,7 +14,12 @@ const {
     title,
     description = "Personal website of ncwade - Software engineer exploring technology, code, and ideas.",
 } = Astro.props;
-const currentPath = Astro.url.pathname;
+
+// Normalize path by removing trailing slash (except for root "/")
+const rawPath = Astro.url.pathname;
+const currentPath = rawPath.endsWith('/') && rawPath !== '/' 
+    ? rawPath.slice(0, -1) 
+    : rawPath;
 ---
 
 <!doctype html>
