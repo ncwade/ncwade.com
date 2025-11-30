@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import "../styles/layout.css";
+import GlobeBackground from "../components/GlobeBackground.astro";
 
 interface Props {
     title: string;
@@ -31,6 +32,7 @@ const currentPath = Astro.url.pathname;
         <title>{title}</title>
     </head>
     <body>
+        <GlobeBackground />
         <div class="page-wrapper">
             <header class="site-header">
                 <nav class="nav container">
