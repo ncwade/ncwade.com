@@ -321,17 +321,9 @@ class USMap {
 
       const t = packet.progress;
 
-      const controlX = (fromPoint.x + toPoint.x) / 2;
-      const controlY = Math.min(fromPoint.y, toPoint.y) - 50;
-
-      const x =
-        (1 - t) * (1 - t) * fromPoint.x +
-        2 * (1 - t) * t * controlX +
-        t * t * toPoint.x;
-      const y =
-        (1 - t) * (1 - t) * fromPoint.y +
-        2 * (1 - t) * t * controlY +
-        t * t * toPoint.y;
+      // Linear interpolation to follow the straight connection lines
+      const x = fromPoint.x + (toPoint.x - fromPoint.x) * t;
+      const y = fromPoint.y + (toPoint.y - fromPoint.y) * t;
 
       // Draw packet
       ctx.beginPath();
