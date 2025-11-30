@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from "astro:transitions";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import "../styles/global.css";
 import "../styles/layout.css";
 import GlobeBackground from "../components/GlobeBackground.astro";
@@ -22,18 +24,62 @@ const currentPath = Astro.url.pathname;
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
         <meta name="generator" content={Astro.generator} />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="theme-color" content="#0a0a0f" />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+
+        <!-- Performance hints -->
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+        <!-- Fonts - reduced weights for performance -->
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
             rel="stylesheet"
         />
+
         <title>{title}</title>
+        <ViewTransitions />
     </head>
     <body>
         <GlobeBackground />
-        <div class="page-wrapper">
+        <script>
+            import "../scripts/globe.ts";
+        </script>
+        <script is:inline>
+            // Navigation order for directional transitions (matches header nav)
+            const navOrder = ["/", "/about", "/experience", "/contact", "/principles"];
+
+            function getPageIndex(path) {
+                const normalized = path === "/" ? "/" : path.replace(/\/$/, "");
+                return navOrder.indexOf(normalized);
+            }
+
+            // Override Astro's transition direction based on nav order
+            document.addEventListener("astro:before-preparation", (e) => {
+                const fromPath = window.location.pathname;
+                const toPath = new URL(e.to).pathname;
+
+                const fromIndex = getPageIndex(fromPath);
+                const toIndex = getPageIndex(toPath);
+
+                // Only override if both pages are in our nav order
+                if (fromIndex !== -1 && toIndex !== -1) {
+                    // Set direction based on nav position, not browser history
+                    e.direction = toIndex > fromIndex ? "forward" : "back";
+                }
+            });
+        </script>
+
+        <div class="page-wrapper" transition:animate="none">
             <header class="site-header">
                 <nav class="nav container">
                     <a href="/" class="logo">
@@ -82,7 +128,7 @@ const currentPath = Astro.url.pathname;
                 </nav>
             </header>
 
-            <main class="main-content">
+            <main class="main-content" transition:name="main-content">
                 <slot />
             </main>
 
@@ -96,5 +142,6 @@ const currentPath = Astro.url.pathname;
                 </div>
             </footer>
         </div>
+        <SpeedInsights />
     </body>
 </html>

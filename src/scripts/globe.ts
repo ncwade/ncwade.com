@@ -87,7 +87,6 @@ class USMap {
   private connections: Array<{ from: number; to: number }> = [];
   private animationFrameId: number | null = null;
   private resizeTimeout: number | null = null;
-  private isDestroyed: boolean = false;
   private boundHandleResize: () => void;
 
   // US bounds for projection
@@ -115,7 +114,6 @@ class USMap {
       this.prefersReducedMotion = e.matches;
     });
 
-    // Bind the resize handler for proper cleanup
     this.boundHandleResize = this.handleResize.bind(this);
 
     this.loadUSBorder();
@@ -197,33 +195,12 @@ class USMap {
       window.clearTimeout(this.resizeTimeout);
     }
     this.resizeTimeout = window.setTimeout(() => {
-      if (!this.isDestroyed) {
-        this.resize();
-      }
+      this.resize();
     }, 150);
   }
 
   private setupEventListeners(): void {
     window.addEventListener("resize", this.boundHandleResize);
-  }
-
-  public destroy(): void {
-    this.isDestroyed = true;
-    
-    // Cancel animation frame
-    if (this.animationFrameId !== null) {
-      cancelAnimationFrame(this.animationFrameId);
-      this.animationFrameId = null;
-    }
-    
-    // Clear resize timeout
-    if (this.resizeTimeout !== null) {
-      window.clearTimeout(this.resizeTimeout);
-      this.resizeTimeout = null;
-    }
-    
-    // Remove event listener
-    window.removeEventListener("resize", this.boundHandleResize);
   }
 
   private initDataPackets(): void {
@@ -401,8 +378,6 @@ class USMap {
   }
 
   private animate = (): void => {
-    if (this.isDestroyed) return;
-    
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     this.drawWireframeGrid();
@@ -415,18 +390,18 @@ class USMap {
   };
 }
 
-// Initialize when DOM is ready
-if (typeof window !== "undefined") {
-  const initMap = () => {
-    const canvas = document.getElementById("globe-canvas") as HTMLCanvasElement;
-    if (canvas) {
-      new USMap(canvas);
-    }
-  };
+// Store the map instance globally to prevent re-initialization on navigation
+declare global {
+  interface Window {
+    __usMapInstance?: USMap;
+  }
+}
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initMap);
-  } else {
-    initMap();
+// Initialize the map - this script only runs once per full page load
+// thanks to Astro's module bundling, but we still guard against re-init
+if (typeof window !== "undefined" && !window.__usMapInstance) {
+  const canvas = document.getElementById("globe-canvas") as HTMLCanvasElement;
+  if (canvas) {
+    window.__usMapInstance = new USMap(canvas);
   }
 }

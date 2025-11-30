@@ -56,7 +56,7 @@
 .contact-link {
     font-family: var(--font-mono);
     font-size: 0.9375rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: all var(--transition-fast);
     display: inline-block;
 }

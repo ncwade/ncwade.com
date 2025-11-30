@@ -1,6 +1,8 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/pages/about.css";
+import headshot from "../assets/headshot.png";
 ---
 
 <BaseLayout
@@ -12,10 +14,15 @@ import "../styles/pages/about.css";
             <!-- Hero Section with Headshot -->
             <section class="about-hero">
                 <div class="headshot-wrapper">
-                    <img
-                        src="/images/headshot.png"
+                    <Image
+                        src={headshot}
                         alt="Nick Wade headshot"
                         class="headshot"
+                        width={200}
+                        height={200}
+                        format="webp"
+                        quality={80}
+                        loading="eager"
                     />
                 </div>
                 <div class="hero-content">
@@ -30,9 +37,9 @@ import "../styles/pages/about.css";
 
             <div class="divider"></div>
 
-            <!-- Specialties Section -->
+            <!-- About Me Section -->
             <section class="about-section">
-                <h2>Specialties</h2>
+                <h2>About Me</h2>
                 <div class="content-grid">
                     <div class="content-block">
                         <p>
