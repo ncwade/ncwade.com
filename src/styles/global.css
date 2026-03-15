@@ -392,13 +392,11 @@ pre code {
 }
 
 /* Forward navigation (slide left) - default or explicit forward */
-html[data-astro-transition="forward"]::view-transition-old(main-content),
-html:not([data-astro-transition])::view-transition-old(main-content) {
+html[data-astro-transition="forward"]::view-transition-old(main-content) {
   animation: slide-to-left 200ms ease-in-out both;
 }
 
-html[data-astro-transition="forward"]::view-transition-new(main-content),
-html:not([data-astro-transition])::view-transition-new(main-content) {
+html[data-astro-transition="forward"]::view-transition-new(main-content) {
   animation: slide-from-right 200ms ease-in-out both;
 }
 
@@ -409,6 +407,13 @@ html[data-astro-transition="back"]::view-transition-old(main-content) {
 
 html[data-astro-transition="back"]::view-transition-new(main-content) {
   animation: slide-from-left 200ms ease-in-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation: none !important;
+  }
 }
 
 /* Selection */

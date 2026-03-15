@@ -60,34 +60,106 @@ const currentPath =
             import "../scripts/globe.ts";
         </script>
         <script is:inline>
-            // Navigation order for directional transitions (matches header nav)
-            const navOrder = [
-                "/",
-                "/about",
-                "/experience",
-                "/contact",
-                "/principles",
-            ];
+            if (!window.__ncwadeTransitionsInitialized) {
+                window.__ncwadeTransitionsInitialized = true;
 
-            function getPageIndex(path) {
-                const normalized = path === "/" ? "/" : path.replace(/\/$/, "");
-                return navOrder.indexOf(normalized);
-            }
+                // Navigation order for directional transitions (matches header nav)
+                const navOrder = [
+                    "/",
+                    "/about",
+                    "/experience",
+                    "/contact",
+                    "/principles",
+                ];
 
-            // Override Astro's transition direction based on nav order
-            document.addEventListener("astro:before-preparation", (e) => {
-                const fromPath = window.location.pathname;
-                const toPath = new URL(e.to).pathname;
-
-                const fromIndex = getPageIndex(fromPath);
-                const toIndex = getPageIndex(toPath);
-
-                // Only override if both pages are in our nav order
-                if (fromIndex !== -1 && toIndex !== -1) {
-                    // Set direction based on nav position, not browser history
-                    e.direction = toIndex > fromIndex ? "forward" : "back";
+                function normalizePath(path) {
+                    return path === "/" ? "/" : path.replace(/\/$/, "");
                 }
-            });
+
+                function getPageIndex(path) {
+                    return navOrder.indexOf(normalizePath(path));
+                }
+
+                function isModifiedEvent(event) {
+                    return (
+                        event.metaKey ||
+                        event.ctrlKey ||
+                        event.shiftKey ||
+                        event.altKey
+                    );
+                }
+
+                // Prevent redundant navigation when clicking the current page link.
+                document.addEventListener(
+                    "click",
+                    (event) => {
+                        if (
+                            event.defaultPrevented ||
+                            event.button !== 0 ||
+                            isModifiedEvent(event)
+                        ) {
+                            return;
+                        }
+
+                        if (!(event.target instanceof Element)) {
+                            return;
+                        }
+
+                        const anchor = event.target.closest("a[href]");
+                        if (!anchor) {
+                            return;
+                        }
+
+                        if (
+                            anchor.target === "_blank" ||
+                            anchor.hasAttribute("download")
+                        ) {
+                            return;
+                        }
+
+                        const toUrl = new URL(anchor.href, window.location.href);
+                        const currentUrl = new URL(window.location.href);
+
+                        if (toUrl.origin !== currentUrl.origin) {
+                            return;
+                        }
+
+                        const samePath =
+                            normalizePath(toUrl.pathname) ===
+                            normalizePath(currentUrl.pathname);
+                        const sameSearch = toUrl.search === currentUrl.search;
+                        const sameHash = toUrl.hash === currentUrl.hash;
+
+                        if (samePath && sameSearch && sameHash) {
+                            event.preventDefault();
+                        }
+                    },
+                    { capture: true },
+                );
+
+                // Override Astro's transition direction based on nav order.
+                document.addEventListener("astro:before-preparation", (e) => {
+                    const fromPath = normalizePath(window.location.pathname);
+                    const toPath = normalizePath(new URL(e.to).pathname);
+
+                    // Same-route navigation should be a no-op.
+                    if (fromPath === toPath) {
+                        return;
+                    }
+
+                    const fromIndex = getPageIndex(fromPath);
+                    const toIndex = getPageIndex(toPath);
+
+                    // Only override if both pages are in our nav order.
+                    if (fromIndex !== -1 && toIndex !== -1) {
+                        if (toIndex > fromIndex) {
+                            e.direction = "forward";
+                        } else if (toIndex < fromIndex) {
+                            e.direction = "back";
+                        }
+                    }
+                });
+            }
         </script>
 
         <div class="page-wrapper" transition:animate="none">
@@ -101,6 +173,7 @@ const currentPath =
                             <a
                                 href="/"
                                 class={currentPath === "/" ? "active" : ""}
+                                aria-current={currentPath === "/" ? "page" : undefined}
                                 >Home</a
                             >
                         </li>
@@ -108,6 +181,9 @@ const currentPath =
                             <a
                                 href="/about"
                                 class={currentPath === "/about" ? "active" : ""}
+                                aria-current={currentPath === "/about"
+                                    ? "page"
+                                    : undefined}
                                 >About</a
                             >
                         </li>
@@ -116,7 +192,10 @@ const currentPath =
                                 href="/experience"
                                 class={currentPath === "/experience"
                                     ? "active"
-                                    : ""}>Experience</a
+                                    : ""}
+                                aria-current={currentPath === "/experience"
+                                    ? "page"
+                                    : undefined}>Experience</a
                             >
                         </li>
                         <li>
@@ -124,7 +203,10 @@ const currentPath =
                                 href="/contact"
                                 class={currentPath === "/contact"
                                     ? "active"
-                                    : ""}>Contact</a
+                                    : ""}
+                                aria-current={currentPath === "/contact"
+                                    ? "page"
+                                    : undefined}>Contact</a
                             >
                         </li>
                         <li>
@@ -132,7 +214,10 @@ const currentPath =
                                 href="/principles"
                                 class={currentPath === "/principles"
                                     ? "active"
-                                    : ""}>Principles</a
+                                    : ""}
+                                aria-current={currentPath === "/principles"
+                                    ? "page"
+                                    : undefined}>Principles</a
                             >
                         </li>
                     </ul>
