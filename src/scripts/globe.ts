@@ -126,29 +126,55 @@ class USMap {
 
   private loadUSBorder(): void {
     const topology = usAtlas as unknown as USAtlasTopology;
-    const nationGeoJSON = topojson.feature(topology, topology.objects.nation);
+    const nationGeoJSON = topojson.feature(
+      topology,
+      topology.objects.nation
+    ) as GeoJSON.FeatureCollection;
 
-    if ("features" in nationGeoJSON) {
-      nationGeoJSON.features.forEach((feature) => {
-        this.extractCoordinates(feature.geometry);
-      });
-    } else {
-      this.extractCoordinates(nationGeoJSON.geometry);
-    }
+    nationGeoJSON.features.forEach((feature) => {
+      this.extractCoordinates(feature.geometry);
+    });
   }
 
   private extractCoordinates(geometry: GeoJSON.Geometry): void {
     if (geometry.type === "Polygon") {
       geometry.coordinates.forEach((ring) => {
-        this.nationPath.push(ring as Array<[number, number]>);
+        const typedRing = ring as Array<[number, number]>;
+        if (this.isContiguousRing(typedRing)) {
+          this.nationPath.push(typedRing);
+        }
       });
     } else if (geometry.type === "MultiPolygon") {
       geometry.coordinates.forEach((polygon) => {
         polygon.forEach((ring) => {
-          this.nationPath.push(ring as Array<[number, number]>);
+          const typedRing = ring as Array<[number, number]>;
+          if (this.isContiguousRing(typedRing)) {
+            this.nationPath.push(typedRing);
+          }
         });
       });
     }
+  }
+
+  private isContiguousRing(ring: Array<[number, number]>): boolean {
+    let minLon = Infinity;
+    let maxLon = -Infinity;
+    let minLat = Infinity;
+    let maxLat = -Infinity;
+
+    ring.forEach(([lon, lat]) => {
+      minLon = Math.min(minLon, lon);
+      maxLon = Math.max(maxLon, lon);
+      minLat = Math.min(minLat, lat);
+      maxLat = Math.max(maxLat, lat);
+    });
+
+    const overlapsLower48Lat =
+      maxLat >= this.US_LAT_MIN && minLat <= this.US_LAT_MAX;
+    const overlapsLower48Lon =
+      maxLon >= this.US_LON_MIN && minLon <= this.US_LON_MAX;
+
+    return overlapsLower48Lat && overlapsLower48Lon;
   }
 
   private generateConnections(): void {
