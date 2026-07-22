@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import SpeedInsights from "@vercel/speed-insights/astro";
 import "../styles/global.css";
 import "../styles/layout.css";
@@ -52,7 +52,7 @@ const currentPath =
         />
 
         <title>{title}</title>
-        <ViewTransitions />
+        <ClientRouter />
     </head>
     <body>
         <GlobeBackground />
