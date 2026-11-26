@@ -335,15 +335,28 @@ pre code {
   animation: none;
 }
 
-/* Main content transition group - disable default crossfade isolation */
+/* Keep sticky header pinned above sliding main-content */
+::view-transition-group(site-header) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* Main content transition group - disable default crossfade isolation and height morph */
 ::view-transition-group(main-content) {
   overflow: hidden;
+  animation: none;
 }
 
 ::view-transition-old(main-content),
 ::view-transition-new(main-content) {
   /* Disable default crossfade - we'll handle opacity ourselves */
   mix-blend-mode: normal;
+  height: auto;
 }
 
 /* Custom carousel slide animations for main content */
@@ -392,20 +405,24 @@ pre code {
 }
 
 /* Forward navigation (slide left) - default or explicit forward */
-html[data-astro-transition="forward"]::view-transition-old(main-content) {
+html[data-astro-transition="forward"]::view-transition-old(main-content),
+html[data-astro-transition="forward"][data-astro-transition-fallback="old"] .main-content {
   animation: slide-to-left 200ms ease-in-out both;
 }
 
-html[data-astro-transition="forward"]::view-transition-new(main-content) {
+html[data-astro-transition="forward"]::view-transition-new(main-content),
+html[data-astro-transition="forward"][data-astro-transition-fallback="new"] .main-content {
   animation: slide-from-right 200ms ease-in-out both;
 }
 
 /* Backward navigation (slide right) */
-html[data-astro-transition="back"]::view-transition-old(main-content) {
+html[data-astro-transition="back"]::view-transition-old(main-content),
+html[data-astro-transition="back"][data-astro-transition-fallback="old"] .main-content {
   animation: slide-to-right 200ms ease-in-out both;
 }
 
-html[data-astro-transition="back"]::view-transition-new(main-content) {
+html[data-astro-transition="back"]::view-transition-new(main-content),
+html[data-astro-transition="back"][data-astro-transition-fallback="new"] .main-content {
   animation: slide-from-left 200ms ease-in-out both;
 }
 

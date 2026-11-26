@@ -74,7 +74,10 @@ const currentPath =
                 ];
 
                 function normalizePath(path) {
-                    return path === "/" ? "/" : path.replace(/\/$/, "");
+                    if (path === "/" || path === "/index.html") {
+                        return "/";
+                    }
+                    return path.replace(/\/$/, "");
                 }
 
                 function getPageIndex(path) {
@@ -144,7 +147,7 @@ const currentPath =
 
                 // Override Astro's transition direction based on nav order.
                 document.addEventListener("astro:before-preparation", (e) => {
-                    const fromPath = normalizePath(window.location.pathname);
+                    const fromPath = normalizePath(new URL(e.from).pathname);
                     const toPath = normalizePath(new URL(e.to).pathname);
 
                     // Same-route navigation should be a no-op.
@@ -174,11 +177,24 @@ const currentPath =
                         }
                     }
                 });
+
+                document.addEventListener("astro:before-swap", (e) => {
+                    if (e.direction) {
+                        document.documentElement.setAttribute(
+                            "data-astro-transition",
+                            e.direction,
+                        );
+                    }
+                });
             }
         </script>
 
         <div class="page-wrapper" transition:animate="none">
-            <header class="site-header">
+            <header
+                class="site-header"
+                transition:name="site-header"
+                transition:animate="none"
+            >
                 <nav class="nav container">
                     <a href="/" class="logo">
                         <span class="logo-text">Nick Wade</span>
@@ -252,7 +268,11 @@ const currentPath =
                 </nav>
             </header>
 
-            <main class="main-content" transition:name="main-content">
+            <main
+                class="main-content"
+                transition:name="main-content"
+                transition:animate="none"
+            >
                 <slot />
             </main>
 
