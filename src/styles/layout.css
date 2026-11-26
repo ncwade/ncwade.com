@@ -105,11 +105,15 @@
 
 @media (max-width: 768px) {
     .nav {
-        gap: var(--space-lg);
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-md);
     }
 
     .nav-links {
-        gap: var(--space-lg);
+        gap: var(--space-sm) var(--space-lg);
+        flex-wrap: wrap;
     }
 
     .nav-links a {
@@ -117,12 +121,20 @@
     }
 }
 
-@media (max-width: 480px) {
-    .nav-links {
+@media (max-width: 600px) {
+    .nav {
+        flex-direction: column;
+        align-items: center;
         gap: var(--space-sm);
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: var(--space-xs) var(--space-md);
     }
 
     .nav-links a {
         font-size: 0.8125rem;
+        padding: var(--space-xs) 0;
     }
 }
