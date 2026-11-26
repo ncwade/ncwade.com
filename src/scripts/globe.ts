@@ -112,6 +112,15 @@ class USMap {
     this.prefersReducedMotion = mediaQuery.matches;
     mediaQuery.addEventListener("change", (e) => {
       this.prefersReducedMotion = e.matches;
+      if (this.prefersReducedMotion) {
+        if (this.animationFrameId !== null) {
+          cancelAnimationFrame(this.animationFrameId);
+          this.animationFrameId = null;
+        }
+        this.drawFrame();
+      } else if (this.animationFrameId === null) {
+        this.animate();
+      }
     });
 
     this.boundHandleResize = this.handleResize.bind(this);
@@ -187,6 +196,7 @@ class USMap {
   }
 
   private resize(): void {
+    this.pixelRatio = window.devicePixelRatio || 1;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
@@ -195,7 +205,7 @@ class USMap {
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
 
-    this.ctx.scale(this.pixelRatio, this.pixelRatio);
+    this.ctx.setTransform(this.pixelRatio, 0, 0, this.pixelRatio, 0, 0);
     this.ctx.imageSmoothingEnabled = true;
     this.ctx.imageSmoothingQuality = "high";
 
@@ -213,6 +223,10 @@ class USMap {
 
     this.offsetX = (this.width - this.mapWidth) / 2;
     this.offsetY = (this.height - this.mapHeight) / 2;
+
+    if (this.prefersReducedMotion) {
+      this.drawFrame();
+    }
   }
 
   private handleResize(): void {
@@ -229,12 +243,22 @@ class USMap {
     window.addEventListener("resize", this.boundHandleResize);
   }
 
+  private pickDifferentTarget(from: number): number {
+    if (edgeLocations.length <= 1) return from;
+    let to = Math.floor(Math.random() * (edgeLocations.length - 1));
+    if (to >= from) {
+      to += 1;
+    }
+    return to;
+  }
+
   private initDataPackets(): void {
     const numPackets = window.innerWidth < 768 ? 15 : 25;
     for (let i = 0; i < numPackets; i++) {
+      const from = Math.floor(Math.random() * edgeLocations.length);
       this.dataPackets.push({
-        from: Math.floor(Math.random() * edgeLocations.length),
-        to: Math.floor(Math.random() * edgeLocations.length),
+        from,
+        to: this.pickDifferentTarget(from),
         progress: Math.random(),
         speed: 0.002 + Math.random() * 0.003,
       });
@@ -313,9 +337,11 @@ class USMap {
     edgeLocations.forEach((loc, index) => {
       const point = this.latLonToXY(loc.lat, loc.lon);
 
-      // Pulsing effect
-      const pulse = Math.sin(time * 2 + index * 0.3) * 0.5 + 0.5;
-      const size = 3 + pulse * 2;
+      // Pulsing effect (disabled for reduced motion)
+      const pulse = this.prefersReducedMotion
+        ? 0.25
+        : Math.sin(time * 2 + index * 0.3) * 0.5 + 0.5;
+      const size = this.prefersReducedMotion ? 3.5 : 3 + pulse * 2;
 
       // Glow
       ctx.beginPath();
@@ -350,7 +376,7 @@ class USMap {
         if (packet.progress >= 1) {
           packet.progress = 0;
           packet.from = Math.floor(Math.random() * edgeLocations.length);
-          packet.to = Math.floor(Math.random() * edgeLocations.length);
+          packet.to = this.pickDifferentTarget(packet.from);
         }
       }
 
@@ -403,7 +429,7 @@ class USMap {
     });
   }
 
-  private animate = (): void => {
+  private drawFrame(): void {
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     this.drawWireframeGrid();
@@ -411,6 +437,15 @@ class USMap {
     this.drawConnectionLines();
     this.drawEdgeLocations();
     this.drawDataPackets();
+  }
+
+  private animate = (): void => {
+    this.drawFrame();
+
+    if (this.prefersReducedMotion) {
+      this.animationFrameId = null;
+      return;
+    }
 
     this.animationFrameId = requestAnimationFrame(this.animate);
   };
