@@ -1,0 +1,57 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/pages/blog-post.css";
+import { formatBlogDate, getBlogPosts, type BlogPost } from "../../utils/blog";
+
+export async function getStaticPaths() {
+    const posts = await getBlogPosts();
+
+    return posts.map((post) => ({
+        params: { slug: post.id },
+        props: { post },
+    }));
+}
+
+interface Props {
+    post: BlogPost;
+}
+
+const { post } = Astro.props as Props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | Nick Wade`} description={post.data.description}>
+    <div class="blog-post-page">
+        <div class="container container-narrow">
+            <article class="blog-post">
+                <header class="blog-post-header">
+                    <a href="/blog" class="back-link mono">&larr; Back to blog</a>
+                    <div class="blog-post-meta">
+                        <time datetime={post.data.pubDate.toISOString()}>
+                            {formatBlogDate(post.data.pubDate)}
+                        </time>
+                        {post.data.updatedDate && (
+                            <span>
+                                Updated {formatBlogDate(post.data.updatedDate)}
+                            </span>
+                        )}
+                    </div>
+                    <h1>{post.data.title}</h1>
+                    <p class="lead text-secondary">{post.data.description}</p>
+                    {post.data.tags.length > 0 && (
+                        <ul class="tag-list" aria-label="Post tags">
+                            {post.data.tags.map((tag) => <li>{tag}</li>)}
+                        </ul>
+                    )}
+                </header>
+
+                <div class="divider"></div>
+
+                <div class="blog-post-content">
+                    <Content />
+                </div>
+            </article>
+        </div>
+    </div>
+</BaseLayout>

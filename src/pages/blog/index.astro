@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/pages/blog.css";
+import {
+    formatBlogDate,
+    getBlogPosts,
+    getDraftBlogPosts,
+} from "../../utils/blog";
+
+const posts = await getBlogPosts();
+const draftPosts = import.meta.env.DEV ? await getDraftBlogPosts() : [];
+---
+
+<BaseLayout
+    title="Blog | Nick Wade"
+    description="Writing on infrastructure, systems, and the ideas behind building resilient software."
+>
+    <div class="blog-page">
+        <div class="container container-narrow">
+            <section class="blog-hero">
+                <span class="blog-kicker mono">Writing</span>
+                <h1>
+                    Notes on <span class="gradient-text">systems, craft,</span>
+                    and the work worth doing
+                </h1>
+                <p class="lead text-secondary">
+                    Writing on infrastructure, systems, and the ideas behind
+                    building resilient software.
+                </p>
+            </section>
+
+            {import.meta.env.DEV && draftPosts.length > 0 && (
+                <aside class="draft-banner glass-card">
+                    <p>
+                        <strong>{draftPosts.length}</strong> draft
+                        {draftPosts.length === 1 ? "" : "s"} visible in local
+                        development only.
+                    </p>
+                </aside>
+            )}
+
+            <div class="divider"></div>
+
+            <section class="posts-section">
+                {posts.length > 0 ? (
+                    <div class="posts-grid">
+                        {posts.map((post) => (
+                            <article class="post-card card">
+                                <div class="post-card-meta">
+                                    <time datetime={post.data.pubDate.toISOString()}>
+                                        {formatBlogDate(post.data.pubDate)}
+                                    </time>
+                                    {post.data.draft && (
+                                        <span class="draft-pill">Draft</span>
+                                    )}
+                                </div>
+                                <h2>
+                                    <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                                </h2>
+                                <p class="text-secondary">{post.data.description}</p>
+                                {post.data.tags.length > 0 && (
+                                    <ul class="tag-list" aria-label="Post tags">
+                                        {post.data.tags.map((tag) => (
+                                            <li>{tag}</li>
+                                        ))}
+                                    </ul>
+                                )}
+                                <a href={`/blog/${post.id}/`} class="post-link">
+                                    Read post
+                                </a>
+                            </article>
+                        ))}
+                    </div>
+                ) : (
+                    <div class="empty-state glass-card">
+                        <h2>No published posts yet</h2>
+                        <p class="text-secondary">
+                            Add Markdown files in <code>src/content/blog</code> and
+                            they will appear here automatically.
+                        </p>
+                    </div>
+                )}
+            </section>
+        </div>
+    </div>
+</BaseLayout>

@@ -1,0 +1,138 @@
+/* ============================================
+   BLOG INDEX PAGE STYLES
+   ============================================ */
+
+.blog-page {
+    padding: var(--space-2xl) 0;
+}
+
+.blog-hero {
+    padding: var(--space-3xl) 0 var(--space-2xl);
+}
+
+.blog-kicker {
+    color: var(--color-primary);
+    display: inline-block;
+    margin-bottom: var(--space-lg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.blog-hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    margin-bottom: var(--space-lg);
+    max-width: 14ch;
+}
+
+.blog-hero .lead {
+    margin: 0;
+}
+
+.draft-banner {
+    margin-bottom: var(--space-2xl);
+}
+
+.draft-banner p {
+    margin: 0;
+    color: var(--color-text-secondary);
+}
+
+.posts-section {
+    padding: var(--space-2xl) 0;
+}
+
+.posts-grid {
+    display: grid;
+    gap: var(--space-xl);
+}
+
+.post-card {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.post-card:hover h2 a {
+    color: var(--color-link-hover);
+}
+
+.post-card h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.post-card p {
+    margin: 0;
+}
+
+.post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.draft-pill {
+    background: var(--color-primary-subtle);
+    border: 1px solid var(--color-primary-dark);
+    border-radius: var(--radius-full);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    text-transform: uppercase;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tag-list li {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
+}
+
+.post-link {
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-3xl);
+}
+
+.empty-state h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--space-lg);
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .blog-page {
+        padding: var(--space-lg) 0;
+    }
+
+    .blog-hero {
+        padding: var(--space-2xl) 0;
+    }
+
+    .posts-section {
+        padding: var(--space-xl) 0;
+    }
+}

@@ -1,0 +1,122 @@
+/* ============================================
+   BLOG POST PAGE STYLES
+   ============================================ */
+
+.blog-post-page {
+    padding: var(--space-2xl) 0;
+}
+
+.blog-post-header {
+    padding: var(--space-3xl) 0 var(--space-2xl);
+}
+
+.back-link {
+    display: inline-flex;
+    margin-bottom: var(--space-xl);
+    font-size: 0.875rem;
+}
+
+.blog-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: var(--space-lg);
+}
+
+.blog-post-header h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    margin-bottom: var(--space-lg);
+    max-width: 16ch;
+}
+
+.blog-post-header .lead {
+    margin: 0 0 var(--space-lg);
+}
+
+.blog-post-content {
+    padding: var(--space-2xl) 0 var(--space-3xl);
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tag-list li {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
+}
+
+.blog-post-content > :first-child {
+    margin-top: 0;
+}
+
+.blog-post-content h2,
+.blog-post-content h3,
+.blog-post-content h4 {
+    margin-top: var(--space-2xl);
+}
+
+.blog-post-content p,
+.blog-post-content ul,
+.blog-post-content ol {
+    color: var(--color-text-secondary);
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+    padding-left: 1.5rem;
+    margin: 0 0 var(--space-lg);
+}
+
+.blog-post-content li + li {
+    margin-top: var(--space-sm);
+}
+
+.blog-post-content blockquote {
+    margin: var(--space-xl) 0;
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--color-bg-surface);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+}
+
+.blog-post-content hr {
+    border: none;
+    border-top: 1px solid var(--color-border-subtle);
+    margin: var(--space-2xl) 0;
+}
+
+.blog-post-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin: var(--space-2xl) auto;
+}
+
+@media (max-width: 768px) {
+    .blog-post-page {
+        padding: var(--space-lg) 0;
+    }
+
+    .blog-post-header {
+        padding: var(--space-2xl) 0;
+    }
+
+    .blog-post-content {
+        padding: var(--space-xl) 0 var(--space-2xl);
+    }
+}

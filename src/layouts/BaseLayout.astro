@@ -68,6 +68,7 @@ const currentPath =
                     "/",
                     "/about",
                     "/experience",
+                    "/blog",
                     "/contact",
                     "/principles",
                 ];
@@ -77,7 +78,11 @@ const currentPath =
                 }
 
                 function getPageIndex(path) {
-                    return navOrder.indexOf(normalizePath(path));
+                    const normalized = normalizePath(path);
+                    if (normalized.startsWith("/blog/")) {
+                        return navOrder.indexOf("/blog");
+                    }
+                    return navOrder.indexOf(normalized);
                 }
 
                 function isModifiedEvent(event) {
@@ -156,6 +161,16 @@ const currentPath =
                             e.direction = "forward";
                         } else if (toIndex < fromIndex) {
                             e.direction = "back";
+                        } else if (
+                            fromPath === "/blog" &&
+                            toPath.startsWith("/blog/")
+                        ) {
+                            e.direction = "forward";
+                        } else if (
+                            fromPath.startsWith("/blog/") &&
+                            toPath === "/blog"
+                        ) {
+                            e.direction = "back";
                         }
                     }
                 });
@@ -196,6 +211,19 @@ const currentPath =
                                 aria-current={currentPath === "/experience"
                                     ? "page"
                                     : undefined}>Experience</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="/blog"
+                                class={currentPath === "/blog" ||
+                                    currentPath.startsWith("/blog/")
+                                    ? "active"
+                                    : ""}
+                                aria-current={currentPath === "/blog" ||
+                                    currentPath.startsWith("/blog/")
+                                    ? "page"
+                                    : undefined}>Blog</a
                             >
                         </li>
                         <li>
