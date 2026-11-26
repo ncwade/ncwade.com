@@ -73,6 +73,24 @@
     animation: pulse-glow 2s ease-in-out infinite;
 }
 
+@keyframes pulse-glow {
+    0%,
+    100% {
+        box-shadow: 0 0 12px var(--color-primary-glow);
+    }
+    50% {
+        box-shadow:
+            0 0 20px var(--color-primary),
+            0 0 32px var(--color-primary-glow);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .timeline-item.current .timeline-marker {
+        animation: none;
+    }
+}
+
 .timeline-item:hover .timeline-marker {
     border-color: var(--color-primary);
     transform: scale(1.2);
@@ -137,8 +155,15 @@
     transition: opacity var(--transition-base);
 }
 
-.experience-card:hover .click-hint {
+.experience-card:hover .click-hint,
+.experience-card:focus-visible .click-hint {
     opacity: 1;
+}
+
+@media (hover: none) {
+    .click-hint {
+        opacity: 0.85;
+    }
 }
 
 .work-cta {
