@@ -13,13 +13,30 @@ interface ExperienceItem {
 
 const experience: ExperienceItem[] = [
     {
+        id: "defense-unicorns",
+        title: "Senior Platform Engineer",
+        company: "Defense Unicorns",
+        period: "Sep 2026 - Present",
+        current: true,
+        description:
+            "Working in engineering enablement, focused on developer velocity and internal platform tooling. Early work includes improving CI/CD performance across projects, building a self-hosted runner platform on Runs-On, and deploying an internal AI gateway for testing and usage. More to come!",
+    },
+    {
         id: "onebrief",
         title: "Principal Infrastructure Engineer",
         company: "Onebrief",
-        period: "Sep 2024 - Present",
-        current: true,
-        description:
-            "Working as the Principal engineer on the Onebrief Infrastructure team. We manage our corporate AWS infrastructure, our customer deployments, and our internal tooling.",
+        period: "Sep 2024 - Aug 2026",
+        current: false,
+        description: `Sole Principal-level IC in the infrastructure organization (which grew 2.2x during my tenure), setting architecture, reliability, and platform-security direction across the function.
+
+• Led the company's first paying-customer commercial cloud go-live and a follow-on sovereign cloud consolidation.
+• Authored RFCs and ADRs driving FY26 platform direction, including zero-downtime deployments, graceful degradation, authn/authz re-architecture, database migration strategy, and capability reviews across Redis, S3, event streaming, and regional/disconnected architectures.
+• Drove the FY26 cloud cost-accountability program: tagging policy, Kubernetes right-sizing, and full-stack cost visibility across product and platform spend.
+• Drove the FY26 operational excellence program: standardized deployments, updated documentation and runbooks, unified observability, and consistent execution.
+• Maintained the air-gapped delivery path for regulated and disconnected customer environments alongside the commercial cloud roadmap.
+• Served as senior reviewer for cross-team infrastructure and security designs, mentoring platform and AppSec engineers as the organization scaled.
+
+Tech: AWS (GovCloud), Kubernetes, Terraform, Redis, PostgreSQL, S3, CI/CD, FedRAMP, SBOM/supply-chain, SLO-driven SRE.`,
     },
     {
         id: "rebellion-defense",
@@ -139,7 +156,7 @@ const experience: ExperienceItem[] = [
                     engineer. I have fourteen years of experience in everything
                     from kernel modules on embedded Linux systems to security
                     scanning for cloud based infrastructure. Currently working
-                    on the Infrastructure team at Onebrief.
+                    as a Senior Platform Engineer at Defense Unicorns.
                 </p>
             </section>
 
